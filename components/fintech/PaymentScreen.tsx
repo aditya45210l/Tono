@@ -1,10 +1,15 @@
 "use client"
 
-import { ArrowLeft, ArrowUpDown, Delete } from "lucide-react"
+import { ArrowLeft, Delete } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState } from "react"
 
-export default function PaymentScreen() {
+interface PaymentScreenProps {
+  onBack?: () => void
+  onSuccess?: () => void
+}
+
+export default function PaymentScreen({ onBack, onSuccess }: PaymentScreenProps) {
   const [amount, setAmount] = useState("121606.50")
   
   const handleKeyPress = (key: string) => {
@@ -15,19 +20,28 @@ export default function PaymentScreen() {
     }
   }
 
+  const handleExchange = () => {
+    if (onSuccess) {
+      onSuccess()
+    }
+  }
+
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="relative h-full bg-black text-white overflow-y-auto">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-black to-black" />
       
       <div className="relative z-10">
-        {/* Header */}
+        {/* Header with Back Button */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center justify-between px-5 pt-6 mb-8"
         >
-          <button className="w-10 h-10 rounded-full glass flex items-center justify-center">
+          <button 
+            onClick={onBack}
+            className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
+          >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="text-lg font-semibold">Payment</h1>
@@ -57,36 +71,15 @@ export default function PaymentScreen() {
         >
           <div className="glass-strong rounded-[32px] p-8 text-center soft-shadow">
             <p className="text-sm text-gray-400 mb-2">To</p>
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <h1 className="text-5xl font-bold">{amount}</h1>
-              <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#9EFF36]/10 border border-[#9EFF36]/20">
+            <div className="flex items-center justify-center gap-2 mb-4 flex-wrap">
+              <h1 className="text-4xl sm:text-5xl font-bold break-all max-w-full">{amount}</h1>
+              <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#9EFF36]/10 border border-[#9EFF36]/20 flex-shrink-0">
                 <div className="w-2 h-2 bg-[#9EFF36] rounded-full" />
                 <span className="text-sm font-medium text-[#9EFF36]">BDT</span>
               </div>
             </div>
             <div className="glass rounded-full px-4 py-2 inline-block">
               <p className="text-xs text-gray-400">Network Fees: <span className="text-white">2.59 USD</span></p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Exchange Rate */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="px-5 mb-8"
-        >
-          <div className="glass rounded-[24px] p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-400 mb-1">Rate</p>
-                <p className="text-xs text-gray-500">Feb 10, 12:20 PM UTC</p>
-              </div>
-              <div className="text-right">
-                <p className="font-semibold">1 USD = 121.61 BDT</p>
-                <p className="text-xs text-[#9EFF36]">▲ +11.15% (1Y)</p>
-              </div>
             </div>
           </div>
         </motion.div>
@@ -126,7 +119,10 @@ export default function PaymentScreen() {
           transition={{ delay: 0.5 }}
           className="px-5 pb-8"
         >
-          <button className="w-full bg-gradient-to-r from-[#9EFF36] to-[#8CFF00] text-black font-semibold py-5 rounded-[24px] neon-glow hover:shadow-lg transition-shadow">
+          <button 
+            onClick={handleExchange}
+            className="w-full bg-gradient-to-r from-[#9EFF36] to-[#8CFF00] text-black font-semibold py-5 rounded-[24px] neon-glow hover:shadow-lg transition-shadow"
+          >
             Exchange Money
           </button>
         </motion.div>

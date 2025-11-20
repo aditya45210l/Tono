@@ -3,24 +3,28 @@
 import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 
-export default function SuccessScreen() {
+interface SuccessScreenProps {
+  onDone?: () => void
+}
+
+export default function SuccessScreen({ onDone }: SuccessScreenProps) {
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden flex items-center justify-center">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-black to-black" />
-      
+
       {/* Animated particles */}
       <div className="absolute inset-0">
         {Array.from({ length: 30 }).map((_, i) => (
           <motion.div
             key={i}
-            initial={{ 
-              opacity: 0, 
-              x: "50%", 
+            initial={{
+              opacity: 0,
+              x: "50%",
               y: "50%",
-              scale: 0 
+              scale: 0
             }}
-            animate={{ 
+            animate={{
               opacity: [0, 1, 0],
               x: `${Math.random() * 100}%`,
               y: `${Math.random() * 100}%`,
@@ -40,12 +44,12 @@ export default function SuccessScreen() {
         ))}
       </div>
 
-      <div className="relative z-10 text-center px-5">
+      <div className="relative z-10 text-center px-5 mt-20">
         {/* Success Icon */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
-          transition={{ 
+          transition={{
             type: "spring",
             stiffness: 200,
             damping: 15,
@@ -56,7 +60,7 @@ export default function SuccessScreen() {
           <div className="relative">
             {/* Glow rings */}
             <motion.div
-              animate={{ 
+              animate={{
                 scale: [1, 1.3, 1],
                 opacity: [0.4, 0, 0.4]
               }}
@@ -68,7 +72,7 @@ export default function SuccessScreen() {
               className="absolute inset-0 rounded-full bg-[#9EFF36]"
             />
             <motion.div
-              animate={{ 
+              animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.3, 0, 0.3]
               }}
@@ -80,7 +84,7 @@ export default function SuccessScreen() {
               }}
               className="absolute inset-0 rounded-full bg-[#9EFF36]"
             />
-            
+
             {/* Main circle */}
             <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-[#9EFF36] to-[#8CFF00] flex items-center justify-center animate-pulse-glow">
               <Check className="w-16 h-16 text-black" strokeWidth={3} />
@@ -94,8 +98,8 @@ export default function SuccessScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <h1 className="text-4xl font-bold mb-3 neon-text-glow">Payment Completed!</h1>
-          <p className="text-gray-400 mb-8">Your transaction was successful</p>
+          <h1 className="text-4xl font-bold mb-3 neon-text-glow">Transaction Confirmed!</h1>
+          <p className="text-gray-400 mb-8">Your payment was successful</p>
         </motion.div>
 
         {/* Transaction Details */}
@@ -138,7 +142,10 @@ export default function SuccessScreen() {
           <button className="flex-1 glass-strong py-4 rounded-[20px] font-medium hover:bg-white/5 transition-colors">
             Share Receipt
           </button>
-          <button className="flex-1 bg-gradient-to-r from-[#9EFF36] to-[#8CFF00] text-black py-4 rounded-[20px] font-semibold neon-glow hover:shadow-lg transition-shadow">
+          <button
+            onClick={onDone}
+            className="flex-1 bg-gradient-to-r from-[#9EFF36] to-[#8CFF00] text-black py-4 rounded-[20px] font-semibold neon-glow hover:shadow-lg transition-shadow"
+          >
             Done
           </button>
         </motion.div>

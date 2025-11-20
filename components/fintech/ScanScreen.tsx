@@ -3,9 +3,13 @@
 import { ArrowLeft, Flashlight, RefreshCw } from "lucide-react"
 import { motion } from "framer-motion"
 
-export default function ScanScreen() {
+interface ScanScreenProps {
+  onBack?: () => void
+}
+
+export default function ScanScreen({ onBack }: ScanScreenProps) {
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="relative h-full bg-black text-white overflow-y-auto">
       {/* Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 opacity-20">
@@ -27,13 +31,16 @@ export default function ScanScreen() {
       </div>
 
       <div className="relative z-10">
-        {/* Header */}
+        {/* Header with Back Button */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center justify-between px-5 pt-6 mb-8"
         >
-          <button className="w-10 h-10 rounded-full glass flex items-center justify-center">
+          <button 
+            onClick={onBack}
+            className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
+          >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="text-lg font-semibold">Scan to Pay</h1>
@@ -130,7 +137,7 @@ export default function ScanScreen() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="fixed bottom-8 left-0 right-0 px-5"
+          className="px-5 pb-8 mt-12"
         >
           <div className="glass rounded-[24px] p-5 max-w-sm mx-auto">
             <p className="text-center text-sm text-gray-400">
