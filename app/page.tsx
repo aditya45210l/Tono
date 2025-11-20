@@ -9,6 +9,7 @@ import StatisticsScreen from "@/components/fintech/StatisticsScreen"
 import TransactionHistoryScreen from "@/components/fintech/TransactionHistoryScreen"
 import { Home, QrCode, Activity, User } from "lucide-react"
 import { motion } from "framer-motion"
+import { TonConnectButton } from "@tonconnect/ui-react"
 
 type Screen = "home" | "scan" | "payment" | "success" | "statistics" | "history"
 
@@ -89,9 +90,10 @@ export default function HomePage() {
       </div>
 
       {/* TON Branding */}
-      <div className="fixed top-8 right-8 z-50 glass-strong rounded-full px-4 py-2">
+      {/* <div className="fixed top-8 right-8 z-50 glass-strong rounded-full px-4 py-2">
         <p className="text-[#9EFF36] text-sm font-semibold">TON Wallet</p>
-      </div>
+      </div> */}
+           <TonConnectButton/>
     </div>
   )
 }
